@@ -1,11 +1,11 @@
 buildscript {
     repositories {
-        mavenLocal() // Сначала ищем локально (наш скачанный файл)
-        maven { url = 'https://maven.minecraftforge.net/' }
+        maven { url = 'https://maven.anatawa12.com/' } // Форк, который чинит мертвые ссылки
+        maven { url = 'https://maven.cleanroommc.com/' } // Зеркало со старыми библиотеками
         mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'com.anatawa12.forge:ForgeGradle:2.3-1.0.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -17,9 +17,9 @@ archivesBaseName = "TusiClient"
 sourceCompatibility = targetCompatibility = '1.8'
 
 minecraft {
-    version = "1.12.2-14.23.5.2860"
+    version = "1.12.2-14.23.5.2860" // Берем последнюю версию
     runDir = "run"
-    mappings = "snapshot_20171003"
+    mappings = "stable_39" // Стабильные маппинги
 }
 
 processResources {
