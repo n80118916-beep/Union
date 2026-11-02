@@ -16,7 +16,6 @@ archivesBaseName = "TusiClient"
 
 sourceCompatibility = targetCompatibility = '1.8'
 
-// ВОТ ЭТОТ БЛОК МЫ ДОБАВИЛИ. ТЕПЕРЬ GRADLE БУДЕТ ИСКАТЬ ФАЙЛЫ ИГРЫ ТУТ
 repositories {
     maven { url = 'https://maven.cleanroommc.com/' }
     maven { url = 'https://maven.anatawa12.com/' }
@@ -25,7 +24,8 @@ repositories {
 }
 
 minecraft {
-    version = "1.12.2-14.23.5.2860"
+    // ВОТ ЗДЕСЬ МЫ ПОМЕНЯЛИ ВЕРСИЮ НА 2859
+    version = "1.12.2-14.23.5.2859" 
     runDir = "run"
     mappings = "stable_39"
 }
