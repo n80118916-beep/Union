@@ -1,6 +1,8 @@
 package ru.tusiclient.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -30,7 +32,7 @@ public abstract class TitleScreenMixin extends Screen {
         this.buttons.clear();
         this.children.clear();
 
-        int x = this.width / 2 - 150; // Смещено влево, чтобы не закрывать девушку
+        int x = this.width / 2 - 150;
         int y = this.height / 2 - 40;
         int w = 200;
         int h = 20;
@@ -41,12 +43,19 @@ public abstract class TitleScreenMixin extends Screen {
         this.addButton(new ButtonWidget(x, y + 72, w, h, new LiteralText("Выход"), b -> this.client.scheduleStop()));
     }
 
-    @Inject(method = "renderBackground", at = @At("HEAD"), cancellable = true)
-    private void onRenderBackground(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        // Рисуем твою картинку на весь экран вместо панорамы
+    // Внедряемся в метод render, а не renderBackground
+    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
+    private void onRender(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        // Рисуем картинку на весь экран
+        RenderSystem.enableBlend();
         this.client.getTextureManager().bindTexture(BACKGROUND);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        drawTexture(matrices, 0, 0, 0, 0, this.width, this.height, this.width, this.height);
-        ci.cancel(); // Отменяем стандартный фон
+        DrawableHelper.drawTexture(matrices, 0, 0, 0, 0, this.width, this.height, this.width, this.height);
+        RenderSystem.disableBlend();
+
+        // Рисуем кнопки
+        super.render(matrices, mouseX, mouseY, delta);
+        
+        // Отменяем стандартный рендер (панораму и т.д.)
+        ci.cancel();
     }
-                    }
+}
