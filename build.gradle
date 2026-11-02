@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://files.minecraftforge.net/maven' } // Резервный репозиторий
         mavenCentral()
     }
     dependencies {
@@ -16,7 +17,8 @@ archivesBaseName = "TusiClient"
 sourceCompatibility = targetCompatibility = '1.8'
 
 minecraft {
-    version = "1.12.2-14.23.5.2860"
+    // ВОТ ЗДЕСЬ МЫ ПОМЕНЯЛИ ВЕРСИЮ НА СТАБИЛЬНУЮ 2859
+    version = "1.12.2-14.23.5.2859" 
     runDir = "run"
     mappings = "snapshot_20171003"
 }
