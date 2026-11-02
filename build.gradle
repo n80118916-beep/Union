@@ -1,7 +1,7 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://files.minecraftforge.net/maven' } // Резервный репозиторий
+        maven { url = 'https://maven.creeperhost.net/' } // Зеркало, где точно есть файлы
+        maven { url = 'https://maven.minecraftforge.net/' } // Официальный
         mavenCentral()
     }
     dependencies {
@@ -17,10 +17,9 @@ archivesBaseName = "TusiClient"
 sourceCompatibility = targetCompatibility = '1.8'
 
 minecraft {
-    // ВОТ ЗДЕСЬ МЫ ПОМЕНЯЛИ ВЕРСИЮ НА СТАБИЛЬНУЮ 2859
-    version = "1.12.2-14.23.5.2859" 
+    version = "1.12.2-14.23.5.2859"
     runDir = "run"
-    mappings = "snapshot_20171003"
+    mappings = "stable_39" // Используем стабильные маппинги
 }
 
 processResources {
