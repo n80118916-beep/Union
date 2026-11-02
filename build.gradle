@@ -1,7 +1,7 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.anatawa12.com/' } // Форк, который чинит мертвые ссылки
-        maven { url = 'https://maven.cleanroommc.com/' } // Зеркало со старыми библиотеками
+        maven { url = 'https://maven.anatawa12.com/' }
+        maven { url = 'https://maven.cleanroommc.com/' } // <--- ВОТ ОН, СПАСИТЕЛЬ
         mavenCentral()
     }
     dependencies {
@@ -17,9 +17,9 @@ archivesBaseName = "TusiClient"
 sourceCompatibility = targetCompatibility = '1.8'
 
 minecraft {
-    version = "1.12.2-14.23.5.2860" // Берем последнюю версию
+    version = "1.12.2-14.23.5.2860"
     runDir = "run"
-    mappings = "stable_39" // Стабильные маппинги
+    mappings = "stable_39"
 }
 
 processResources {
