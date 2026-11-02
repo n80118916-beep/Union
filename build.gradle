@@ -1,10 +1,11 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.anatawa12.com/' } // Форк, который обходит мертвые ссылки
+        maven { url = 'https://maven.cleanroommc.com/' } // Тут сохранены все старые файлы
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         mavenCentral()
     }
     dependencies {
-        classpath 'com.anatawa12.forge:ForgeGradle:2.3-1.0.+'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -16,7 +17,7 @@ archivesBaseName = "TusiClient"
 sourceCompatibility = targetCompatibility = '1.8'
 
 minecraft {
-    version = "1.12.2-14.23.5.2860" // Самая последняя версия
+    version = "1.12.2-14.23.5.2860"
     runDir = "run"
     mappings = "snapshot_20171003"
 }
