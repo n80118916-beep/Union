@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "tusiclient",
+  "version": "1.0",
+  "name": "TusiClient",
+  "description": "Custom Menu",
+  "authors": ["Tusi"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "ru.tusiclient.TusiClient"
+    ]
+  },
+  "mixins": [
+    "tusiclient.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "minecraft": "1.16.5"
+  }
+}
