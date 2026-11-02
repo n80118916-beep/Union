@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenLocal() // Сначала ищем локально (наш скачанный файл)
         maven { url = 'https://maven.minecraftforge.net/' }
         mavenCentral()
     }
