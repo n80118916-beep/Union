@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.anatawa12.com/' }
-        maven { url = 'https://maven.cleanroommc.com/' } // <--- ВОТ ОН, СПАСИТЕЛЬ
+        maven { url = 'https://maven.cleanroommc.com/' }
         mavenCentral()
     }
     dependencies {
@@ -15,6 +15,14 @@ group = "ru.tusiclient"
 archivesBaseName = "TusiClient"
 
 sourceCompatibility = targetCompatibility = '1.8'
+
+// ВОТ ЭТОТ БЛОК МЫ ДОБАВИЛИ. ТЕПЕРЬ GRADLE БУДЕТ ИСКАТЬ ФАЙЛЫ ИГРЫ ТУТ
+repositories {
+    maven { url = 'https://maven.cleanroommc.com/' }
+    maven { url = 'https://maven.anatawa12.com/' }
+    maven { url = 'https://maven.minecraftforge.net/' }
+    mavenCentral()
+}
 
 minecraft {
     version = "1.12.2-14.23.5.2860"
