@@ -18,11 +18,12 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
 
-    # ХАК: Скачиваем мертвый файл с зеркала и кладем в кэш Gradle
-    - name: Fix dead userdev link
+    # ХАК: Создаем локальный Maven-репозиторий и кладем туда мертвый файл
+    - name: Setup Local Maven
       run: |
-        mkdir -p ~/.gradle/caches/minecraft/net/minecraftforge/forge/1.12.2-14.23.5.2860
-        curl -L -o ~/.gradle/caches/minecraft/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev.jar https://maven.cleanroommc.com/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev.jar
+        mkdir -p ~/.m2/repository/net/minecraftforge/forge/1.12.2-14.23.5.2860
+        curl -L -o ~/.m2/repository/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev.jar https://maven.cleanroommc.com/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev.jar
+        echo "<project><modelVersion>4.0.0</modelVersion><groupId>net.minecraftforge</groupId><artifactId>forge</artifactId><version>1.12.2-14.23.5.2860</version></project>" > ~/.m2/repository/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860.pom
 
     - name: Setup Gradle 4.10.3
       uses: gradle/actions/setup-gradle@v3
