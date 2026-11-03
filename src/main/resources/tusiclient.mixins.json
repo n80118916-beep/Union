@@ -6,10 +6,9 @@
   "mixins": [],
   "client": [
     "TitleScreenMixin",
-    "ChatScreenMixin",
     "SplashScreenMixin",
     "MinecraftClientAccessor",
-    "NetworkHandlerMixin"
+    "ClientPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
