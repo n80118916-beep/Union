@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(SplashScreen.class)
 public class SplashScreenMixin {
     
+    // Путь к картинке с атомом
     private static final Identifier SPLASH_BG = new Identifier("tusiclient", "textures/gui/splash.png");
 
-    // Внедряемся в самом начале отрисовки экрана загрузки
     @Inject(method = "render", at = @At("HEAD"))
     private void drawCustomSplash(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         MinecraftClient mc = MinecraftClient.getInstance();
