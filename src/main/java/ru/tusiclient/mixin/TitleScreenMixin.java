@@ -28,13 +28,14 @@ public abstract class TitleScreenMixin extends Screen {
     private void onInit(CallbackInfo ci) {
         this.buttons.clear();
         this.children.clear();
-        int x = this.width / 2 - 150;
-        int y = this.height / 2 - 60; // Сдвинул чуть выше, чтобы влезла 5-я кнопка
+        
+        // Позиция в левом нижнем углу
+        int x = 20;
+        int y = this.height - 120;
 
         this.addButton(new ButtonWidget(x, y, 200, 20, new LiteralText("Одиночная игра"), b -> this.client.openScreen(new SelectWorldScreen(this))));
         this.addButton(new ButtonWidget(x, y + 24, 200, 20, new LiteralText("Мультиплеер"), b -> this.client.openScreen(new MultiplayerScreen(this))));
-        // НОВАЯ КНОПКА АЛЬТОВ
-        this.addButton(new ButtonWidget(x, y + 48, 200, 20, new LiteralText("Альты (Смена ника)"), b -> this.client.openScreen(new AltManagerScreen())));
+        this.addButton(new ButtonWidget(x, y + 48, 200, 20, new LiteralText("Альты"), b -> this.client.openScreen(new AltManagerScreen())));
         this.addButton(new ButtonWidget(x, y + 72, 200, 20, new LiteralText("Настройки"), b -> this.client.openScreen(new OptionsScreen(this, this.client.options))));
         this.addButton(new ButtonWidget(x, y + 96, 200, 20, new LiteralText("Выход"), b -> this.client.scheduleStop()));
     }
