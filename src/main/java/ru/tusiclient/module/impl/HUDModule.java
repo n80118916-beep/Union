@@ -9,7 +9,6 @@ public class HUDModule extends Module {
     }
 
     public void render2D(MatrixStack matrices, float tickDelta) {
-        // HUD временно отключен для стабильной сборки.
-        // Вернем позже, когда настроим правильные матрицы рендера.
+        // Заглушка для стабильной сборки
     }
 }
