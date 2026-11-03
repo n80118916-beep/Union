@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [],
   "client": [
-    "TitleScreenMixin",
-    "SplashScreenMixin"
+    "TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
