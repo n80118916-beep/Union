@@ -4,6 +4,7 @@ import ru.tusiclient.module.impl.AutoSprint;
 import ru.tusiclient.module.impl.NeuroAura;
 import ru.tusiclient.module.impl.ESPModule;
 import ru.tusiclient.module.impl.HUDModule;
+import ru.tusiclient.module.impl.WingsModule;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class ModuleManager {
         modules.add(new AutoSprint());
         modules.add(new ESPModule());
         modules.add(new HUDModule());
+        modules.add(new WingsModule());
     }
 
     public static void onTick() {
