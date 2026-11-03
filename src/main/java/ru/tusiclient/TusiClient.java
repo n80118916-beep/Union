@@ -14,6 +14,7 @@ import ru.tusiclient.module.Module;
 import ru.tusiclient.module.ModuleManager;
 import ru.tusiclient.module.impl.ESPModule;
 import ru.tusiclient.module.impl.HUDModule;
+import ru.tusiclient.module.impl.WingsModule;
 
 public class TusiClient implements ClientModInitializer {
     public static KeyBinding openGuiKey;
@@ -22,16 +23,13 @@ public class TusiClient implements ClientModInitializer {
     public void onInitializeClient() {
         ModuleManager.init();
 
-        // Рендер в мире (ESP и HUD)
         WorldRenderEvents.LAST.register((context) -> {
             MatrixStack matrices = context.matrixStack();
             for (Module mod : ModuleManager.modules) {
-                if (mod instanceof ESPModule) {
-                    ((ESPModule) mod).render3D(matrices, context.camera(), context.tickDelta());
-                }
-                if (mod instanceof HUDModule) {
-                    ((HUDModule) mod).render2D(matrices, context.camera(), context.tickDelta());
-                }
+                if (!mod.enabled) continue;
+                if (mod instanceof ESPModule) ((ESPModule) mod).render3D(matrices, context.camera(), context.tickDelta());
+                if (mod instanceof HUDModule) ((HUDModule) mod).render2D(matrices, context.camera(), context.tickDelta());
+                if (mod instanceof WingsModule) ((WingsModule) mod).render3D(matrices, context.camera(), context.tickDelta());
             }
         });
 
