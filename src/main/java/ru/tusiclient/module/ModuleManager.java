@@ -2,6 +2,7 @@ package ru.tusiclient.module;
 
 import ru.tusiclient.module.impl.AutoSprint;
 import ru.tusiclient.module.impl.NeuroAura;
+import ru.tusiclient.module.impl.RenderModules;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class ModuleManager {
     public static void init() {
         modules.add(new NeuroAura());
         modules.add(new AutoSprint());
+        modules.add(new RenderModules()); // ESP и HUD
     }
 
     public static void onTick() {
