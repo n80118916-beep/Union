@@ -32,9 +32,7 @@ public class AltManagerScreen extends Screen {
         this.addButton(new ButtonWidget(centerX - 100, centerY + 10, 200, 20, new LiteralText("Войти в аккаунт"), (button) -> {
             String nick = nickField.getText().trim();
             if (!nick.isEmpty()) {
-                // Генерируем оффлайн UUID
                 UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + nick).getBytes());
-                // ИСПОЛЬЗУЕМ АКСЕССОР ДЛЯ СМЕНЫ СЕССИИ
                 ((MinecraftClientAccessor) this.client).setSession(new Session(nick, uuid.toString(), "0", "mojang"));
                 this.status = "Успешно вошли как: " + nick;
                 this.nickField.setText("");
@@ -56,9 +54,9 @@ public class AltManagerScreen extends Screen {
 
         fill(matrices, centerX - 120, centerY - 60, centerX + 120, centerY + 90, new Color(20, 20, 25, 255).getRGB());
         
-        // ИСПОЛЬЗУЕМ DrawableHelper ДЛЯ ЦЕНТРИРОВАННОГО ТЕКСТА
-        DrawableHelper.drawCenteredString(matrices, this.textRenderer, "Alt Manager", centerX, centerY - 50, Color.WHITE.getRGB());
-        DrawableHelper.drawCenteredString(matrices, this.textRenderer, status, centerX, centerY - 35, Color.GREEN.getRGB());
+        // ИСПОЛЬЗУЕМ drawCenteredText ВМЕСТО drawCenteredString
+        DrawableHelper.drawCenteredText(matrices, this.textRenderer, "Alt Manager", centerX, centerY - 50, Color.WHITE.getRGB());
+        DrawableHelper.drawCenteredText(matrices, this.textRenderer, status, centerX, centerY - 35, Color.GREEN.getRGB());
 
         this.nickField.render(matrices, mouseX, mouseY, delta);
         super.render(matrices, mouseX, mouseY, delta);
