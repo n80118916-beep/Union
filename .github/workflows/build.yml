@@ -24,7 +24,7 @@ jobs:
         gradle-version: '7.6.4'
 
     - name: Build with Gradle
-      run: gradle build --stacktrace
+      run: gradle build --refresh-dependencies --stacktrace
 
     - name: Upload Jar
       uses: actions/upload-artifact@v4
