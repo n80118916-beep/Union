@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import ru.tusiclient.gui.AltManagerScreen;
 
 @Mixin(TitleScreen.class)
 public abstract class TitleScreenMixin extends Screen {
@@ -28,12 +29,14 @@ public abstract class TitleScreenMixin extends Screen {
         this.buttons.clear();
         this.children.clear();
         int x = this.width / 2 - 150;
-        int y = this.height / 2 - 40;
+        int y = this.height / 2 - 60; // Сдвинул чуть выше, чтобы влезла 5-я кнопка
 
         this.addButton(new ButtonWidget(x, y, 200, 20, new LiteralText("Одиночная игра"), b -> this.client.openScreen(new SelectWorldScreen(this))));
         this.addButton(new ButtonWidget(x, y + 24, 200, 20, new LiteralText("Мультиплеер"), b -> this.client.openScreen(new MultiplayerScreen(this))));
-        this.addButton(new ButtonWidget(x, y + 48, 200, 20, new LiteralText("Настройки"), b -> this.client.openScreen(new OptionsScreen(this, this.client.options))));
-        this.addButton(new ButtonWidget(x, y + 72, 200, 20, new LiteralText("Выход"), b -> this.client.scheduleStop()));
+        // НОВАЯ КНОПКА АЛЬТОВ
+        this.addButton(new ButtonWidget(x, y + 48, 200, 20, new LiteralText("Альты (Смена ника)"), b -> this.client.openScreen(new AltManagerScreen())));
+        this.addButton(new ButtonWidget(x, y + 72, 200, 20, new LiteralText("Настройки"), b -> this.client.openScreen(new OptionsScreen(this, this.client.options))));
+        this.addButton(new ButtonWidget(x, y + 96, 200, 20, new LiteralText("Выход"), b -> this.client.scheduleStop()));
     }
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
