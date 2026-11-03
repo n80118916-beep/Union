@@ -4,8 +4,8 @@ import net.minecraft.client.MinecraftClient;
 
 public class Module {
     public String name;
-    public boolean enabled;
     public String category;
+    public boolean enabled;
     public static MinecraftClient mc = MinecraftClient.getInstance();
 
     public Module(String name, String category) {
@@ -14,13 +14,9 @@ public class Module {
         this.enabled = false;
     }
 
-    public void onEnable() {}
-    public void onDisable() {}
     public void onTick() {}
-
+    
     public void toggle() {
         this.enabled = !this.enabled;
-        if (this.enabled) onEnable();
-        else onDisable();
     }
 }
