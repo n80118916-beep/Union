@@ -1,7 +1,7 @@
 package ru.tusiclient.mixin;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.text.LiteralText;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,8 +11,8 @@ import ru.tusiclient.module.Module;
 import ru.tusiclient.module.ModuleManager;
 import ru.tusiclient.module.impl.NeuroAura;
 
-@Mixin(ClientPlayerEntity.class)
-public class ChatScreenMixin {
+@Mixin(ClientPlayNetworkHandler.class)
+public class NetworkHandlerMixin {
 
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void onSendChatMessage(String message, CallbackInfo ci) {
@@ -34,7 +34,7 @@ public class ChatScreenMixin {
                     }
                 }
             }
-            ci.cancel();
+            ci.cancel(); // Отменяем отправку на сервер
         }
     }
 }
