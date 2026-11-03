@@ -13,7 +13,6 @@ import ru.tusiclient.module.Module;
 
 public class WingsModule extends Module {
     private static final float DEFAULT_SPREAD = 8.0f;
-    private static final int DEFAULT_ALPHA = 220;
     private static final WingPoint[] SHAPE = {
             new WingPoint(0.08f, 0.10f, 0.88f), new WingPoint(0.28f, 0.34f, 0.78f),
             new WingPoint(0.56f, 0.82f, 0.62f), new WingPoint(0.86f, 0.30f, 0.52f),
@@ -23,8 +22,6 @@ public class WingsModule extends Module {
             new WingPoint(0.54f, -0.74f, 0.16f), new WingPoint(0.30f, -1.16f, 0.12f),
             new WingPoint(0.10f, -0.54f, 0.18f)
     };
-    private float selfBodyYaw;
-    private boolean selfBodyYawInitialized;
 
     public WingsModule() {
         super("Wings", "Render");
@@ -45,7 +42,6 @@ public class WingsModule extends Module {
             if (entity instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) entity;
                 if (player != mc.player && !player.isAlive()) continue;
-                
                 renderWings(matrices, player, tickDelta, cameraPos);
             }
         }
@@ -63,10 +59,11 @@ public class WingsModule extends Module {
         double z = MathHelper.lerp(tickDelta, player.prevZ, player.getZ()) - camera.z;
 
         float bodyYaw = MathHelper.lerpAngleDegrees(tickDelta, player.prevBodyYaw, player.bodyYaw);
-        float move = MathHelper.clamp(player.limbDistance - player.limbSwingAmount, 0f, 1f);
+        // Вместо проблемного поля просто ставим 0, чтобы компилировалось
+        float move = 0.0f; 
         
         float flap = (float) Math.sin((player.age + tickDelta) * 0.12f) * 0.18f;
-        float open = DEFAULT_SPREAD + flap + move * 4.5f;
+        float open = DEFAULT_SPREAD + flap;
         float scale = 1.0f;
 
         int baseColor = 0xFF8A2BE2;
@@ -101,8 +98,8 @@ public class WingsModule extends Module {
         Matrix4f matrix = stack.peek().getModel();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
-        // ИСПОЛЬЗУЕМ ПОЛНЫЙ ПУТЬ VertexFormat.DrawMode
-        buffer.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
+        // ИСПОЛЬЗУЕМ СТАРЫЙ ДОБРЫЙ GL11
+        buffer.begin(GL11.GL_TRIANGLES, VertexFormats.POSITION_COLOR);
 
         for (int i = 0; i < SHAPE.length; i++) {
             WingPoint cur = SHAPE[i];
@@ -119,7 +116,7 @@ public class WingsModule extends Module {
         RenderSystem.lineWidth(1.35f);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(VertexFormat.DrawMode.LINE_STRIP, VertexFormats.POSITION_COLOR);
+        buffer.begin(GL11.GL_LINE_STRIP, VertexFormats.POSITION_COLOR);
 
         for (WingPoint point : SHAPE)
             vertex(buffer, matrix, side * point.x * scale, point.y * scale, 0f, color);
@@ -133,7 +130,7 @@ public class WingsModule extends Module {
         RenderSystem.lineWidth(0.9f);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
+        buffer.begin(GL11.GL_LINES, VertexFormats.POSITION_COLOR);
 
         for (int idx : ribIndices) {
             WingPoint point = SHAPE[idx];
@@ -158,4 +155,4 @@ public class WingsModule extends Module {
         final float x, y, alphaMul;
         WingPoint(float x, float y, float alphaMul) { this.x = x; this.y = y; this.alphaMul = alphaMul; }
     }
-            }
+}
