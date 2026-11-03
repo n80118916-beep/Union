@@ -10,12 +10,16 @@ import org.lwjgl.glfw.GLFW;
 import ru.tusiclient.gui.ClickGUI;
 
 public class TusiClient implements ClientModInitializer {
+    
     public static KeyBinding openGuiKey;
 
     @Override
     public void onInitializeClient() {
         openGuiKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-            "key.tusiclient.gui", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_SHIFT, "category.tusiclient"
+            "key.tusiclient.gui",
+            InputUtil.Type.KEYSYM,
+            GLFW.GLFW_KEY_RIGHT_SHIFT,
+            "category.tusiclient"
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
