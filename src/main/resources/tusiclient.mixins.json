@@ -7,7 +7,8 @@
   "client": [
     "TitleScreenMixin",
     "NetworkHandlerMixin",
-    "SplashScreenMixin"
+    "SplashScreenMixin",
+    "MinecraftClientAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
