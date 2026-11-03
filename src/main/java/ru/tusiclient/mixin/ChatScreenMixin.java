@@ -6,7 +6,7 @@ import net.minecraft.text.LiteralText;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.tusiclient.module.Module;
 import ru.tusiclient.module.ModuleManager;
 import ru.tusiclient.module.impl.NeuroAura;
@@ -14,8 +14,8 @@ import ru.tusiclient.module.impl.NeuroAura;
 @Mixin(ChatScreen.class)
 public class ChatScreenMixin {
 
-    @Inject(method = "sendMessage(Ljava/lang/String;Z)Z", at = @At("HEAD"), cancellable = true)
-    private void onSendMessage(String message, boolean addToHistory, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "handleChatInput(Ljava/lang/String;Z)V", at = @At("HEAD"), cancellable = true)
+    private void onHandleChatInput(String message, boolean addToRecentChat, CallbackInfo ci) {
         if (message.startsWith(".aura ")) {
             MinecraftClient mc = MinecraftClient.getInstance();
             Module aura = ModuleManager.getModule("NeuroAura");
@@ -34,8 +34,7 @@ public class ChatScreenMixin {
                     }
                 }
             }
-            // Отменяем отправку на сервер и возвращаем true, чтобы чат закрылся
-            cir.setReturnValue(true);
+            ci.cancel(); // Отменяем отправку на сервер
         }
     }
 }
