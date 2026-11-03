@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -15,33 +16,24 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.tusiclient.gui.CustomButton;
 
 @Mixin(TitleScreen.class)
 public abstract class TitleScreenMixin extends Screen {
-    
     private static final Identifier BACKGROUND = new Identifier("tusiclient", "textures/gui/background.png");
 
-    protected TitleScreenMixin(Text title) {
-        super(title);
-    }
+    protected TitleScreenMixin(Text title) { super(title); }
 
     @Inject(method = "init", at = @At("RETURN"))
     private void onInit(CallbackInfo ci) {
         this.buttons.clear();
         this.children.clear();
-
-        // Кнопки смещены влево, чтобы не закрывать лицо девушке
-        int x = this.width / 2 - 160; 
+        int x = this.width / 2 - 150;
         int y = this.height / 2 - 40;
-        int w = 220; // Чуть шире для красоты
-        int h = 24;
 
-        // Используем наш красивый CustomButton
-        this.addButton(new CustomButton(x, y, w, h, new LiteralText("Одиночная игра"), b -> this.client.openScreen(new SelectWorldScreen(this))));
-        this.addButton(new CustomButton(x, y + 30, w, h, new LiteralText("Мультиплеер"), b -> this.client.openScreen(new MultiplayerScreen(this))));
-        this.addButton(new CustomButton(x, y + 60, w, h, new LiteralText("Настройки"), b -> this.client.openScreen(new OptionsScreen(this, this.client.options))));
-        this.addButton(new CustomButton(x, y + 90, w, h, new LiteralText("Выход"), b -> this.client.scheduleStop()));
+        this.addButton(new ButtonWidget(x, y, 200, 20, new LiteralText("Одиночная игра"), b -> this.client.openScreen(new SelectWorldScreen(this))));
+        this.addButton(new ButtonWidget(x, y + 24, 200, 20, new LiteralText("Мультиплеер"), b -> this.client.openScreen(new MultiplayerScreen(this))));
+        this.addButton(new ButtonWidget(x, y + 48, 200, 20, new LiteralText("Настройки"), b -> this.client.openScreen(new OptionsScreen(this, this.client.options))));
+        this.addButton(new ButtonWidget(x, y + 72, 200, 20, new LiteralText("Выход"), b -> this.client.scheduleStop()));
     }
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
