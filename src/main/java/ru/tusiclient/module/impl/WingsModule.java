@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 import org.lwjgl.opengl.GL11;
 import ru.tusiclient.module.Module;
 
@@ -27,7 +28,7 @@ public class WingsModule extends Module {
         super("Wings", "Render");
     }
 
-    public void render3D(MatrixStack matrices, Camera camera, float tickDelta) {
+    public void render3D(MatrixStack stack, Camera camera, float tickDelta) {
         if (!enabled || mc.player == null || mc.world == null) return;
 
         Vec3d cameraPos = camera.getPos();
@@ -42,7 +43,7 @@ public class WingsModule extends Module {
             if (entity instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) entity;
                 if (player != mc.player && !player.isAlive()) continue;
-                renderWings(matrices, player, tickDelta, cameraPos);
+                renderWings(stack, player, tickDelta, cameraPos);
             }
         }
 
@@ -59,46 +60,40 @@ public class WingsModule extends Module {
         double z = MathHelper.lerp(tickDelta, player.prevZ, player.getZ()) - camera.z;
 
         float bodyYaw = MathHelper.lerpAngleDegrees(tickDelta, player.prevBodyYaw, player.bodyYaw);
-        // Вместо проблемного поля просто ставим 0, чтобы компилировалось
-        float move = 0.0f; 
-        
         float flap = (float) Math.sin((player.age + tickDelta) * 0.12f) * 0.18f;
         float open = DEFAULT_SPREAD + flap;
-        float scale = 1.0f;
 
-        int baseColor = 0xFF8A2BE2;
+        int baseColor = 0xFF8A2BE2; 
         int glowColor = 0xFFFFFF;
 
-        GL11.glPushMatrix();
-        GL11.glTranslated(x, y, z);
-        GL11.glRotatef(180f - bodyYaw, 0f, 1f, 0f);
-        GL11.glTranslated(0f, 1.38f, 0.10f);
-        GL11.glScalef(scale, scale, scale);
+        stack.push();
+        stack.translate(x, y, z);
+        stack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180f - bodyYaw));
+        stack.translate(0f, 1.38f, 0.10f); // Сдвиг на спину
 
         renderWingSide(stack, -1f, open, baseColor, glowColor);
         renderWingSide(stack, 1f, open, baseColor, glowColor);
-        GL11.glPopMatrix();
+        stack.pop();
     }
 
     private void renderWingSide(MatrixStack stack, float side, float open, int baseColor, int glowColor) {
-        GL11.glPushMatrix();
-        GL11.glTranslated(side * 0.18f, 0f, 0.06f);
-        GL11.glRotatef(side * open, 0f, 1f, 0f);
-        GL11.glRotatef(side * -11f, 0f, 0f, 1f);
-        GL11.glRotatef(-4f, 1f, 0f, 0f);
+        stack.push();
+        stack.translate(side * 0.18f, 0f, 0.06f);
+        stack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(side * open));
+        stack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(side * -11f));
+        stack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-4f));
 
         drawWingLayer(stack, side, 1.0f, setAlpha(baseColor, 180), setAlpha(baseColor, 10));
         drawWingOutline(stack, side, 1.0f, setAlpha(glowColor, 120));
         drawWingRibs(stack, side, 0.96f, setAlpha(glowColor, 50));
 
-        GL11.glPopMatrix();
+        stack.pop();
     }
 
     private void drawWingLayer(MatrixStack stack, float side, float scale, int rootColor, int edgeColor) {
         Matrix4f matrix = stack.peek().getModel();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
-        // ИСПОЛЬЗУЕМ СТАРЫЙ ДОБРЫЙ GL11
         buffer.begin(GL11.GL_TRIANGLES, VertexFormats.POSITION_COLOR);
 
         for (int i = 0; i < SHAPE.length; i++) {
