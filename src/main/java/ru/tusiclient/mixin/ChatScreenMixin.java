@@ -14,16 +14,16 @@ import ru.tusiclient.module.impl.NeuroAura;
 @Mixin(ChatScreen.class)
 public class ChatScreenMixin {
 
-    @Inject(method = "sendMessage", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "sendMessage(Ljava/lang/String;Z)Z", at = @At("HEAD"), cancellable = true)
     private void onSendMessage(String message, boolean addToHistory, CallbackInfoReturnable<Boolean> cir) {
         if (message.startsWith(".aura ")) {
             MinecraftClient mc = MinecraftClient.getInstance();
             Module aura = ModuleManager.getModule("NeuroAura");
-            
+
             if (aura instanceof NeuroAura) {
                 NeuroAura neuro = (NeuroAura) aura;
                 String action = message.substring(6).trim().toLowerCase();
-                
+
                 if (action.equals("start")) {
                     neuro.startTraining();
                 } else if (action.equals("save")) {
